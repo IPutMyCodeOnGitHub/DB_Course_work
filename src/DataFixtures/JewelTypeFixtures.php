@@ -12,9 +12,10 @@ class JewelTypeFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        for($i = 0; $i < count(self::JEWEL_TYPES); $i++){
+        $jewelTypes = self::JEWEL_TYPES;
+        for($i = 0; $i < count($jewelTypes); $i++){
             $jewelType = new JewelType();
-            $jewelType->setName(self::JEWEL_TYPES[$i]);
+            $jewelType->setName($jewelTypes[$i]);
             $manager->persist($jewelType);
         }
 

@@ -8,10 +8,11 @@ use Doctrine\Persistence\ObjectManager;
 
 class MetalFixtures extends Fixture
 {
+    const METALS_NAMES = ["gold", "silver", "platinum", "rhodium", "alloy"];
+
     public function load(ObjectManager $manager)
     {
-        $metalsNames = ["gold", "silver", "platinum", "rhodium", "alloy"];
-
+        $metalsNames = self::METALS_NAMES;
         for($i = 0; $i < count($metalsNames); $i++){
             $metal = new Metal();
             $metal->setName($metalsNames[$i]);

@@ -8,10 +8,11 @@ use Doctrine\Persistence\ObjectManager;
 
 class StyleFixtures extends Fixture
 {
+    const STYLES_NAMES = ["minimalism", "classic", "modern", "vintage", "ethnic", "baroque", "gothic"];
+
     public function load(ObjectManager $manager)
     {
-        $stylesNames = ["minimalism", "classic", "modern", "vintage", "ethnic", "baroque"];
-
+        $stylesNames = self::STYLES_NAMES;
         for($i = 0; $i < count($stylesNames); $i++){
             $style = new Style();
             $style->setName($stylesNames[$i]);

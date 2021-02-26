@@ -14,7 +14,7 @@ class ProductFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $productCount = 30000;
+        $productCount = 3;
         $lowBoundJewType = 1;
         $upBoundJewType = count(JewelTypeFixtures::JEWEL_TYPES);
         $distribution = new Continuous\Uniform($lowBoundJewType, $upBoundJewType);
@@ -28,9 +28,11 @@ class ProductFixtures extends Fixture
             $jewType = $manager->getRepository(JewelType::class)->find($jewTypeId);
             $product->setType($jewType);
 
-            $manager->persist($product);
+
+
+            //$manager->persist($product);
         }
 
-        $manager->flush();
+        //$manager->flush();
     }
 }

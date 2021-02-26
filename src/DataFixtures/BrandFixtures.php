@@ -8,10 +8,11 @@ use Doctrine\Persistence\ObjectManager;
 
 class BrandFixtures extends Fixture
 {
+    const BRAND_NAMES = ["Swarovski", "Van Cleef & Arpels", "BVLGARI", "Cartier", "Tiffani & Co", "Chopard"];
+
     public function load(ObjectManager $manager)
     {
-        $brandsNames = ["Swarovski", "Van Cleef & Arpels", "BVLGARI", "Cartier", "Tiffani & Co", "Chopard"];
-
+        $brandsNames = self::BRAND_NAMES;
         for($i = 0; $i < count($brandsNames); $i++){
             $brand= new Brand();
             $brand->setName($brandsNames[$i]);
