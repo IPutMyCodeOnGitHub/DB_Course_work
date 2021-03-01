@@ -14,7 +14,7 @@ class GemSizeFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $gemSizeCount = 100000;
+        $gemSizeCount = 1;
         $gemsCount = GemFixtures::GEMS_NAMES;
         $distributionGem = new Continuous\Gamma(1.5, 2.5);
         $distributionSize = new Continuous\Gamma(5, 1);
@@ -39,11 +39,11 @@ class GemSizeFixtures extends Fixture
             }
             $gemSize->setValue($size);
 
-            //set Product
+            //TODO set Product
 
-            $manager->persist($gemSize);
+            //$manager->persist($gemSize);
         }
 
-        $manager->flush();
+        //$manager->flush();
     }
 }

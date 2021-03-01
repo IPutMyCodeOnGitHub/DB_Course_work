@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class StyleFixtures extends Fixture
 {
-    const STYLES_NAMES = ["minimalism", "classic", "modern", "vintage", "ethnic", "baroque", "gothic"];
+    const STYLES_NAMES = ["ethnic", "modern", "minimalism", "classic", "vintage", "baroque", "gothic"];
 
     public function load(ObjectManager $manager)
     {

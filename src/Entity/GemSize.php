@@ -18,7 +18,7 @@ class GemSize
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Product::class, inversedBy="gemSize", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="gemSize", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $product;

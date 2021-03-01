@@ -44,7 +44,7 @@ class Product
     private $gemSize;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Metal::class)
+     * @ORM\ManyToOne(targetEntity=MetalAssay::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $metal;
@@ -135,12 +135,12 @@ class Product
         return $this;
     }
 
-    public function getMetal(): ?Metal
+    public function getMetal(): ?MetalAssay
     {
         return $this->metal;
     }
 
-    public function setMetal(?Metal $metal): self
+    public function setMetal(?MetalAssay $metal): self
     {
         $this->metal = $metal;
 
