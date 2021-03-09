@@ -8,26 +8,26 @@ use App\Entity\MetalAssay;
 use App\Entity\Product;
 use App\Entity\Style;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use MathPHP\Probability\Distribution\Continuous;
 use MathPHP\Statistics\Distribution;
 use MathPHP\Statistics\RandomVariable;
 
-class ProductFixtures extends Fixture
+class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
+    const PRODUCT_COUNT = 100000;
+
     public function load(ObjectManager $manager)
     {
-        $productCount = 100000;
-
-        $lowBoundJewType = 1;
-        $upBoundJewType = count(JewelTypeFixtures::JEWEL_TYPES);
-        $jewTypeDistribution = new Continuous\Uniform($lowBoundJewType, $upBoundJewType);
+        $lowBoundJewelType = 1;
+        $upBoundJewelType = count(JewelTypeFixtures::JEWEL_TYPES);
+        $jewelTypeDistribution = new Continuous\Uniform($lowBoundJewelType, $upBoundJewelType);
 
         $stylesCount = count(StyleFixtures::STYLES_NAMES);
         $styleDistribution = new Continuous\Normal((int)round($stylesCount/2),1.5);
 
         $sizeDistribution = new Continuous\Normal(18,2);
-        $sizes = [];
 
         $brandsCount = count(BrandFixtures::BRAND_NAMES);
         $metalsCount = MetalAssayFixtures::ASSAY_NUMBER;
@@ -37,11 +37,11 @@ class ProductFixtures extends Fixture
         $styleRep = $manager->getRepository(Style::class);
         $metalRep = $manager->getRepository(MetalAssay::class);
 
-        for($i = 0; $i < $productCount; $i++){
+        for($i = 0; $i < self::PRODUCT_COUNT; $i++){
             $product = new Product();
             $product->setArticle(str_pad($i, 8, "0", STR_PAD_LEFT));
 
-            $jewTypeId  = (int)$jewTypeDistribution->rand();
+            $jewTypeId  = (int)round($jewelTypeDistribution->rand());
             $jewType = $jewTypeRep->find($jewTypeId);
             $product->setType($jewType);
 
@@ -62,15 +62,28 @@ class ProductFixtures extends Fixture
             $size = $sizeDistribution->rand();
             if($size<14 || $size>22)
                 $size = 17;
-            $product->setSize($size);
+            $product->setSize(ceil($size/0.5) * 0.5);
 
-            $weight = rand(2, 50);
+            $weight = rand(2, 100);
             $product->setWeight($weight);
-            $price = $weight * 100025;
+            $price = $weight * 10025;
             $product->setPrice($price);
             $manager->persist($product);
+            if ($i % 10000 == 0) {
+                $manager->flush();
+            }
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return array(
+            MetalAssayFixtures::class,
+            JewelTypeFixtures::class,
+            BrandFixtures::class,
+            StyleFixtures::class
+        );
     }
 }

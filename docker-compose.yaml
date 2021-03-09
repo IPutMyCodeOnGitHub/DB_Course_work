@@ -23,6 +23,7 @@ services:
             - ./:/app:rw,cached
         environment:
             WEB_DOCUMENT_ROOT: /app/public
+            PHP_MEMORY_LIMIT: -1
         networks:
             - app
         ports:
