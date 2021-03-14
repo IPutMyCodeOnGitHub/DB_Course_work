@@ -19,32 +19,38 @@ class PurchaseRepository extends ServiceEntityRepository
         parent::__construct($registry, Purchase::class);
     }
 
-    // /**
-    //  * @return Purchase[] Returns an array of Purchase objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findSizesInPurchaseByJewelType(int $jewelType)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('pr.id as product_id, pr.size as size')
+            ->leftJoin('p.product', 'pr')
+            ->andWhere('pr.type = :jewelType')
+            ->setParameter('jewelType', $jewelType)
+            ->orderBy('pr.id', 'ASC');
 
-    /*
-    public function findOneBySomeField($value): ?Purchase
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $qb->getQuery()->getResult();
     }
-    */
+
+    public function findSizesInPurchase()
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('pr.id as product_id, s.name as style')
+            ->leftJoin('p.product', 'pr')
+            ->leftJoin('pr.style', 's')
+            ->orderBy('pr.id', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function findGemsInPurchase()
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('pr.id as product_id, g.name as gem, gs.value as size')
+            ->leftJoin('p.product', 'pr')
+            ->leftJoin('pr.gemSize', 'gs')
+            ->leftJoin('gs.gem', 'g')
+            ->orderBy('pr.id', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
 }
